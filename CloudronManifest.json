@@ -1,0 +1,30 @@
+{
+  "id": "org.joinmastodon.cloudronapp",
+  "title": "Mastodon",
+  "author": "Matodon Authors",
+  "description": "file://DESCRIPTION.md",
+  "changelog": "file://CHANGELOG",
+  "tagline": "A federated microblogging network that is decentralized between independently operated servers",
+  "version": "2.5.2",
+  "healthCheckPath": "/about",
+  "httpPort": 8000,
+  "memoryLimit": 536870912,
+  "addons": {
+    "localstorage": {},
+    "postgresql": {},
+    "redis": {},
+    "sendmail": {}
+  },
+  "minBoxVersion": "1.8.1",
+  "manifestVersion": 1,
+  "website": "https://joinmastodon.org/",
+  "contactEmail": "syn+cloudron@syn.im",
+  "icon": "logo.png",
+  "tags": [
+    "social",
+    "forum"
+  ],
+  "mediaLinks": [
+    "https://upload.wikimedia.org/wikipedia/commons/0/0b/Mastodon_desktop_web_screenshot.png"
+  ]
+}
