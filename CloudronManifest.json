@@ -8,7 +8,7 @@
   "version": "2.5.2",
   "healthCheckPath": "/about",
   "httpPort": 8000,
-  "memoryLimit": 536870912,
+  "memoryLimit": 671088640,
   "addons": {
     "localstorage": {},
     "postgresql": {},

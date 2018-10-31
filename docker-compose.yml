@@ -20,6 +20,7 @@ services:
     tmpfs:
       - /run
       - /tmp
+    read_only: true
   postgres:
     image: postgres
     environment:

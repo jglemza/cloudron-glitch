@@ -41,6 +41,8 @@ RUN SECRET_KEY_BASE=insecure.secret_key_base OTP_SECRET=insecure.otp_secret \
 RUN ln -fs /app/data/.env.production /app/code/.env.production
 RUN ln -fs /app/data/bullet.log /app/code/log/bullet.log
 RUN ln -fs /app/data/system /app/code/public/system
+RUN rm -rf /app/code/tmp && ln -fs /tmp /app/code/tmp
+
 CMD /app/code/start.sh
 
 COPY nginx.conf /etc/nginx/sites-enabled/mastodon

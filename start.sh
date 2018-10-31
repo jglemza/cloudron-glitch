@@ -2,20 +2,24 @@
 echo "=>Configuring mastodon<="
 bash /app/code/mastodon.env.template > /app/data/.env.production
 
-if ! [ -f /app/data/.keys.env ]; then
+if ! [ -d /app/data/system ]; then
     echo "=>First run, generating keys and setting up the DB<="
-    export RANDFILE=/app/data/.rnd
-    echo -e "SECRET_KEY_BASE=$(openssl rand -hex 64)\nOTP_SECRET=$(openssl rand -hex 64)" > /app/data/.keys.env
 
-    source /app/data/.keys.env
-    HOME=/app/data bundle exec rake mastodon:webpush:generate_vapid_key >> /app/data/.keys.env
+    export RANDFILE=/tmp/.rnd
+    echo -e "SECRET_KEY_BASE=$(openssl rand -hex 64)\nOTP_SECRET=$(openssl rand -hex 64)" | \
+        tee /app/data/.keys.env >> /app/data/.env.production
+
+    HOME=/app/data bundle exec rake mastodon:webpush:generate_vapid_key | \
+        tee -a /app/data/.keys.env >> /app/data/.env.production
+
     SAFETY_ASSURED=1 HOME=/app/data bundle exec rails db:schema:load db:seed
 
     # the app writes to the following dirs:
     mkdir -p /app/data/system && chown cloudron:cloudron /app/data/system
-fi
 
-cat /app/data/.keys.env >> /app/data/.env.production
+else
+    cat /app/data/.keys.env >> /app/data/.env.production
+fi
 
 echo "=>Starting mastodon<="
 
