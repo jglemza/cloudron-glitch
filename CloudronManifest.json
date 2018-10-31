@@ -27,5 +27,8 @@
   ],
   "mediaLinks": [
     "https://upload.wikimedia.org/wikipedia/commons/0/0b/Mastodon_desktop_web_screenshot.png"
-  ]
+  ],
+  "documentationUrl": "https://docs.joinmastodon.org/administration/post-installation/",
+  "postInstallMessage": "Follow the post-installation guide to promote users to admins",
+  "optionalSso": true
 }
