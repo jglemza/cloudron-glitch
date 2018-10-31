@@ -1,2 +1,5 @@
+[2.6.1]
+* Updated to 2.6.1, enabled LDAP integration
+
 [2.5.2]
 * Initial Cloudron packaging

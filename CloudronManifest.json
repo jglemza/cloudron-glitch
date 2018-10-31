@@ -5,7 +5,7 @@
   "description": "file://DESCRIPTION.md",
   "changelog": "file://CHANGELOG",
   "tagline": "A federated microblogging network that is decentralized between independently operated servers",
-  "version": "2.5.2",
+  "version": "2.6.1",
   "healthCheckPath": "/about",
   "httpPort": 8000,
   "memoryLimit": 671088640,
