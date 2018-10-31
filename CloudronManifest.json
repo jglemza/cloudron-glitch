@@ -13,7 +13,8 @@
     "localstorage": {},
     "postgresql": {},
     "redis": {},
-    "sendmail": {}
+    "sendmail": {},
+    "ldap": {}
   },
   "minBoxVersion": "1.8.1",
   "manifestVersion": 1,

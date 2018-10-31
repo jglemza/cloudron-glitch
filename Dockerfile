@@ -28,6 +28,9 @@ RUN git init && \
     git fetch --depth=1 origin $(git ls-remote --tags | grep refs/tags | grep -v 'rc[0-9]*$' | cut -f2 | sort -V | tail -n 1 | cut -d '/' -f3-) && \
     git checkout FETCH_HEAD
 
+COPY patches /app/code/patches
+RUN for patch in /app/code/patches/*; do patch -N -p0 < $patch; done
+
 RUN bundle install -j$(getconf _NPROCESSORS_ONLN) --deployment --without development test && \
     yarn install --pure-lockfile
 

@@ -1,0 +1,18 @@
+Index: lib/devise/ldap_authenticatable.rb
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lib/devise/ldap_authenticatable.rb	(date 1539296558000)
++++ lib/devise/ldap_authenticatable.rb	(date 1540988096000)
+@@ -12,10 +12,6 @@
+             host: Devise.ldap_host,
+             port: Devise.ldap_port,
+             base: Devise.ldap_base,
+-            encryption: {
+-              method: Devise.ldap_method,
+-              tls_options: tls_options,
+-            },
+             auth: {
+               method: :simple,
+               username: Devise.ldap_bind_dn,
