@@ -18,7 +18,8 @@ RUN apt-get install -y \
     certbot yarn libidn11-dev libicu-dev libjemalloc-dev \
     ruby2.5
 
-RUN gem install bundler --no-ri --no-rdoc
+RUN gem update --system
+RUN gem install bundler 
 
 RUN rm -r /etc/nginx/sites-enabled/default /var/lib/nginx /var/log/nginx
 RUN mkdir -p /run/nginx && ln -fs /run/nginx /var/lib/nginx && ln -fs /run/nginx/log /var/log/nginx
