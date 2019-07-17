@@ -3,52 +3,53 @@ FROM cloudron/base:1.0.0@sha256:147a648a068a2e746644746bbfb42eb7a50d682437cead3c
 RUN mkdir -p /app/code
 WORKDIR /app/code
 
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg && \
+    echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && \
+    apt-get install -y yarn libprotobuf-dev protobuf-compiler libidn11-dev libicu-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm5 libgdbm-dev libicu-dev libssl-dev libyaml-dev libreadline6-dev libxml2-dev libxslt1-dev && \
+    rm -rf /var/cache/apt /var/lib/apt/lists
 
-# the following does apt-get update
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
+RUN mkdir -p /usr/local/node-10.15.3 && \
+    curl -L https://nodejs.org/dist/v10.15.3/node-v10.15.3-linux-x64.tar.gz | tar zxf - --strip-components 1 -C /usr/local/node-10.15.3
 
-RUN apt-get install -y \
-    imagemagick ffmpeg libpq-dev libxml2-dev libxslt1-dev file git-core \
-    g++ libprotobuf-dev protobuf-compiler pkg-config nodejs gcc autoconf \
-    bison build-essential libssl-dev libyaml-dev libreadline6-dev \
-    zlib1g-dev libncurses5-dev libffi-dev libgdbm5 libgdbm-dev \
-    nginx redis-server redis-tools postgresql postgresql-contrib \
-    certbot yarn libidn11-dev libicu-dev libjemalloc-dev \
-    ruby2.5
+ENV PATH /usr/local/node-10.15.3/bin:$PATH
 
-RUN gem update --system
-RUN gem install bundler 
+RUN gem install --no-document bundler -v 1.17.3
 
-RUN rm -r /etc/nginx/sites-enabled/default /var/lib/nginx /var/log/nginx
-RUN mkdir -p /run/nginx && ln -fs /run/nginx /var/lib/nginx && ln -fs /run/nginx/log /var/log/nginx
-
-RUN git init && \
-    git remote add origin https://github.com/tootsuite/mastodon.git && \
-    git fetch --depth=1 origin $(git ls-remote --tags | grep refs/tags | grep -v 'rc[0-9]*$' | cut -f2 | sort -V | tail -n 1 | cut -d '/' -f3-) && \
-    git checkout FETCH_HEAD
+ARG VERSION=2.9.2
+ENV RAILS_ENV production
+ENV NODE_ENV production
+RUN curl -L https://github.com/tootsuite/mastodon/archive/v${VERSION}.tar.gz | tar -xz --strip-components 1 -f - && \
+    bundle install --deployment --without test development && \
+    yarn install --pure-lockfile
 
 COPY patches /app/code/patches
 RUN for patch in /app/code/patches/*; do patch -N -p0 < $patch; done
-
-RUN bundle install -j$(getconf _NPROCESSORS_ONLN) --deployment --without development test && \
-    yarn install --pure-lockfile
-
-ENV GEM_PATH=/app/code/vendor/bundle/ruby/2.5.0/gems/ RAILS_ENV=production NODE_ENV=production
 
 # secret keys are not built into assets, so precompiling is safe to do here
 # (these variables are required by rake though)
 RUN SECRET_KEY_BASE=insecure.secret_key_base OTP_SECRET=insecure.otp_secret \
     bundle exec rake assets:precompile
 
-RUN ln -fs /app/data/.env.production /app/code/.env.production
-RUN ln -fs /app/data/bullet.log /app/code/log/bullet.log
+# add nginx config
+USER root
+RUN rm /etc/nginx/sites-enabled/*
+RUN ln -sf /dev/stdout /var/log/nginx/access.log
+RUN ln -sf /dev/stderr /var/log/nginx/error.log
+ADD nginx_readonlyrootfs.conf /etc/nginx/conf.d/readonlyrootfs.conf
+COPY nginx/mastodon.conf /etc/nginx/sites-available/mastodon
+RUN ln -s /etc/nginx/sites-available/mastodon /etc/nginx/sites-enabled/mastodon
+
+# add supervisor configs
+ADD supervisor/* /etc/supervisor/conf.d/
+RUN ln -sf /run/mastodon/supervisord.log /var/log/supervisor/supervisord.log
+
+RUN ln -fs /app/data/env.production /app/code/.env.production
+RUN ln -fs /run/mastodon/bullet.log /app/code/log/bullet.log
 RUN ln -fs /app/data/system /app/code/public/system
-RUN rm -rf /app/code/tmp && ln -fs /tmp /app/code/tmp
+RUN rm -rf /app/code/tmp && ln -fs /tmp/mastodon /app/code/tmp
 
-CMD /app/code/start.sh
+COPY start.sh env.template /app/code/
 
-COPY nginx.conf /etc/nginx/sites-enabled/mastodon
-COPY mastodon.env.template /app/code
-COPY start.sh /app/code
+CMD [ "/app/code/start.sh" ]
+
