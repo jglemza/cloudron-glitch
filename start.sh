@@ -26,6 +26,18 @@ sed -e "s/DB_HOST=.*/DB_HOST=${CLOUDRON_POSTGRESQL_HOST}/g" \
     -e "s/LOCAL_DOMAIN=.*/LOCAL_DOMAIN=${CLOUDRON_APP_DOMAIN}/g" \
     -i /app/data/env.production
 
+if [[ -n "${CLOUDRON_LDAP_SERVER:-}" ]]; then
+    sed -e "s/LDAP_ENABLED=.*/LDAP_ENABLED=true/g" \
+        -e "s/LDAP_HOST=.*/LDAP_HOST=${CLOUDRON_LDAP_SERVER}/g" \
+        -e "s/LDAP_PORT=.*/LDAP_PORT=${CLOUDRON_LDAP_PORT}/g" \
+        -e "s/LDAP_BASE=.*/LDAP_HOST=${CLOUDRON_LDAP_USERS_BASE_DN}/g" \
+        -e "s/LDAP_BIND_DN=.*/LDAP_BIND_DN=${CLOUDRON_LDAP_BIND_DN}/g" \
+        -e "s/LDAP_BIND_PASSWORD=.*/LDAP_BIND_DN=${CLOUDRON_LDAP_BIND_PASSWORD}/g"
+        -i /app/data/env.production
+else
+    sed -e "s/LDAP_ENABLED=.*/LDAP_ENABLED=false/g" -i /app/data/env.production
+fi
+
 if grep -q "^SECRET_KEY_BASE=$" /app/data/env.production; then
     echo "==> Generating secrets"
     export RANDFILE=/tmp/.rnd
