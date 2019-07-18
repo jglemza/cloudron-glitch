@@ -28,7 +28,7 @@
   "mediaLinks": [
     "https://upload.wikimedia.org/wikipedia/commons/0/0b/Mastodon_desktop_web_screenshot.png"
   ],
-  "documentationUrl": "https://docs.joinmastodon.org/administration/post-installation/",
+  "documentationUrl": "https://cloudron.io/documentation/apps/mastodon/",
   "postInstallMessage": "file://POSTINSTALL.md",
   "optionalSso": true
 }
