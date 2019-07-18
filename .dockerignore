@@ -2,5 +2,5 @@
 .gitignore
 .dockerignore
 node_modules
-mastodon
-.idea
+test
+
