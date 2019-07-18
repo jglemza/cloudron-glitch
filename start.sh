@@ -50,6 +50,12 @@ if grep -q "^SECRET_KEY_BASE=$" /app/data/env.production; then
 
     echo "==> Init database"
     HOME=/app/data SAFETY_ASSURED=1 bundle exec rails db:schema:load db:seed
+
+    if [[ -n "${CLOUDRON_LDAP_SERVER:-}" ]]; then
+        echo "Disabling registration by default"
+        PGPASSWORD=${CLOUDRON_POSTGRESQL_PASSWORD} psql -h ${CLOUDRON_POSTGRESQL_HOST} -p ${CLOUDRON_POSTGRESQL_PORT} -U ${CLOUDRON_POSTGRESQL_USERNAME} -d ${CLOUDRON_POSTGRESQL_DATABASE} \
+            -c "INSERT INTO settings (var, value) VALUES ('registrations_mode', 'none')"
+    fi
 fi
 
 chown -R cloudron:cloudron /app/data /tmp/mastodon /run/mastodon
