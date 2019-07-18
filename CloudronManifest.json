@@ -5,7 +5,7 @@
   "description": "file://DESCRIPTION.md",
   "changelog": "file://CHANGELOG",
   "tagline": "A federated microblogging network that is decentralized between independently operated servers",
-  "version": "2.6.1",
+  "version": "0.1.0",
   "healthCheckPath": "/about",
   "httpPort": 8000,
   "memoryLimit": 1073741824,
@@ -16,10 +16,10 @@
     "sendmail": {},
     "ldap": {}
   },
-  "minBoxVersion": "1.8.1",
+  "minBoxVersion": "4.1.4",
   "manifestVersion": 2,
   "website": "https://joinmastodon.org/",
-  "contactEmail": "syn+cloudron@syn.im",
+  "contactEmail": "support@cloudron.io",
   "icon": "logo.png",
   "tags": [
     "social",
@@ -29,7 +29,6 @@
     "https://upload.wikimedia.org/wikipedia/commons/0/0b/Mastodon_desktop_web_screenshot.png"
   ],
   "documentationUrl": "https://docs.joinmastodon.org/administration/post-installation/",
-  "postInstallMessage": "Follow the post-installation guide to promote users to admins",
-  "optionalSso": true,
-  "minBoxVersion": "4.1.4"
+  "postInstallMessage": "file://POSTINSTALL.md",
+  "optionalSso": true
 }
