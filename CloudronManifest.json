@@ -23,7 +23,8 @@
   "icon": "logo.png",
   "tags": [
     "social",
-    "forum"
+    "forum",
+    "chat"
   ],
   "mediaLinks": [
     "https://upload.wikimedia.org/wikipedia/commons/0/0b/Mastodon_desktop_web_screenshot.png"
