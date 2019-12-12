@@ -24,9 +24,6 @@ RUN curl -L https://github.com/tootsuite/mastodon/archive/v${VERSION}.tar.gz | t
     bundle install --deployment --without test development && \
     yarn install --pure-lockfile
 
-COPY patches /app/code/patches
-RUN for patch in /app/code/patches/*; do patch -N -p0 < $patch; done
-
 # secret keys are not built into assets, so precompiling is safe to do here
 # (these variables are required by rake though)
 RUN SECRET_KEY_BASE=insecure.secret_key_base OTP_SECRET=insecure.otp_secret \
