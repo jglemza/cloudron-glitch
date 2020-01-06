@@ -9,6 +9,8 @@ if [[ ! -f /app/data/env.production ]]; then
     cp /app/pkg/env.template /app/data/env.production
 fi
 
+# LOCAL_DOMAIN is the federation domain.
+# Currently, it's easier for us to support having LOCAL and WEB domain be the same
 echo "==> Configuring mastodon"
 sed -e "s/DB_HOST=.*/DB_HOST=${CLOUDRON_POSTGRESQL_HOST}/g" \
     -e "s/DB_PORT=.*/DB_PORT=${CLOUDRON_POSTGRESQL_PORT}/g" \
@@ -23,6 +25,7 @@ sed -e "s/DB_HOST=.*/DB_HOST=${CLOUDRON_POSTGRESQL_HOST}/g" \
     -e "s/SMTP_FROM_ADDRESS=.*/SMTP_FROM_ADDRESS=${CLOUDRON_MAIL_FROM}/g" \
     -e "s/SMTP_LOGIN=.*/SMTP_LOGIN=${CLOUDRON_MAIL_SMTP_USERNAME}/g" \
     -e "s/SMTP_PASSWORD=.*/SMTP_PASSWORD=${CLOUDRON_MAIL_SMTP_PASSWORD}/g" \
+    -e "s/WEB_DOMAIN=.*/WEB_DOMAIN=${CLOUDRON_APP_DOMAIN}/g" \
     -e "s/LOCAL_DOMAIN=.*/LOCAL_DOMAIN=${CLOUDRON_APP_DOMAIN}/g" \
     -i /app/data/env.production
 
