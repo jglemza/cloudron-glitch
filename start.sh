@@ -6,7 +6,7 @@ mkdir -p /tmp/mastodon /app/data/system /run/mastodon
 
 if [[ ! -f /app/data/env.production ]]; then
     echo "==> Copying env template on first run"
-    cp /app/code/env.template /app/data/env.production
+    cp /app/pkg/env.template /app/data/env.production
 fi
 
 echo "==> Configuring mastodon"

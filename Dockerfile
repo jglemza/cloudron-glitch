@@ -1,6 +1,6 @@
 FROM cloudron/base:1.0.0@sha256:147a648a068a2e746644746bbfb42eb7a50d682437cead3c67c933c546357617
 
-RUN mkdir -p /app/code
+RUN mkdir -p /app/code /app/pkg
 WORKDIR /app/code
 
 ARG VERSION=3.0.1
@@ -47,7 +47,7 @@ RUN ln -fs /run/mastodon/bullet.log /app/code/log/bullet.log
 RUN ln -fs /app/data/system /app/code/public/system
 RUN rm -rf /app/code/tmp && ln -fs /tmp/mastodon /app/code/tmp
 
-COPY start.sh env.template /app/code/
+COPY start.sh env.template /app/pkg/
 
-CMD [ "/app/code/start.sh" ]
+CMD [ "/app/pkg/start.sh" ]
 
