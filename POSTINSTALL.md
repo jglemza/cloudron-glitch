@@ -10,5 +10,8 @@ and run the following command:
 bin/tootctl accounts modify <username> --role admin
 ```
 
-**IMPORTANT**: Before you start using the app, be sure to configure the [federation domain](https://cloudron.io/documentation/apps/mastodon/#federation-domain). The federation domain cannot be changed easily later.
+**Production checklist**:
+
+* Configure the Site settings (contact email, description) at `Administration` -> `Site Settings`.
+* Verify the [federation domain](https://cloudron.io/documentation/apps/mastodon/#federation-domain). The federation domain cannot be changed later.
 
