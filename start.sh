@@ -7,10 +7,12 @@ mkdir -p /tmp/mastodon /app/data/system /run/mastodon
 if [[ ! -f /app/data/env.production ]]; then
     echo "==> Copying env template on first run"
     cp /app/pkg/env.template /app/data/env.production
+
+    # LOCAL_DOMAIN is the federation domain. We only set this once on a fresh install
+    # changing this will break federation
+    sed -e "s/LOCAL_DOMAIN=.*/LOCAL_DOMAIN=${CLOUDRON_APP_DOMAIN}/g" -i /app/data/env.production
 fi
 
-# LOCAL_DOMAIN is the federation domain.
-# Currently, it's easier for us to support having LOCAL and WEB domain be the same
 echo "==> Configuring mastodon"
 sed -e "s/DB_HOST=.*/DB_HOST=${CLOUDRON_POSTGRESQL_HOST}/g" \
     -e "s/DB_PORT=.*/DB_PORT=${CLOUDRON_POSTGRESQL_PORT}/g" \
@@ -26,7 +28,6 @@ sed -e "s/DB_HOST=.*/DB_HOST=${CLOUDRON_POSTGRESQL_HOST}/g" \
     -e "s/SMTP_LOGIN=.*/SMTP_LOGIN=${CLOUDRON_MAIL_SMTP_USERNAME}/g" \
     -e "s/SMTP_PASSWORD=.*/SMTP_PASSWORD=${CLOUDRON_MAIL_SMTP_PASSWORD}/g" \
     -e "s/WEB_DOMAIN=.*/WEB_DOMAIN=${CLOUDRON_APP_DOMAIN}/g" \
-    -e "s/LOCAL_DOMAIN=.*/LOCAL_DOMAIN=${CLOUDRON_APP_DOMAIN}/g" \
     -i /app/data/env.production
 
 if [[ -n "${CLOUDRON_LDAP_SERVER:-}" ]]; then
