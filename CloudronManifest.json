@@ -4,8 +4,8 @@
   "author": "Matodon Authors",
   "description": "file://DESCRIPTION.md",
   "changelog": "file://CHANGELOG",
-  "tagline": "A federated microblogging network that is decentralized between independently operated servers",
-  "version": "0.1.0",
+  "tagline": "Federated social network",
+  "version": "1.0.0",
   "healthCheckPath": "/about",
   "httpPort": 8000,
   "memoryLimit": 1073741824,
@@ -24,7 +24,8 @@
   "tags": [
     "social",
     "forum",
-    "chat"
+    "chat",
+    "twitter"
   ],
   "mediaLinks": [
     "https://upload.wikimedia.org/wikipedia/commons/0/0b/Mastodon_desktop_web_screenshot.png"

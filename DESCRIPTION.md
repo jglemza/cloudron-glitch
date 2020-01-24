@@ -1,15 +1,14 @@
-Social networking, back in your hands
---
-Follow friends and discover new ones. Publish anything you want: links, pictures, text, video. All on a platform that is community-owned and ad-free.
+This app packages Mastodon <upstream>3.0.1</upstream>.
 
-Find your perfect community
---
-Mastodon isn’t just a website, it is a federation—think Star Trek. Thousands of independent communities running Mastodon form a coherent network, where while every planet is different, being part of one is being part of the whole.
+Your self-hosted, globally interconnected microblogging community.
 
-Safer social media experience
---
-Mastodon comes with effective anti-abuse tools to help protect yourself. Thanks to the network's spread out and independent nature there are more moderators who you can approach for personal help, and servers with strict codes of conduct.
+Mastodon is a free, open-source social network server based on ActivityPub where users can follow friends and discover new ones. On Mastodon, users can publish anything they want: links, pictures, text, video. All Mastodon servers are interoperable as a federated network (users on one server can seamlessly communicate with users from another one, including non-Mastodon software that implements ActivityPub)!
 
-Sharing your thoughts has never been more convenient
---
-You have 500 characters. You can adjust the thumbnails of your pictures with focal points. You can use custom emojis, hide things behind spoiler warnings and choose who sees a given post. Messed it up? You can delete & redraft for quick corrections.
+## Features
+
+* No vendor lock-in: Fully interoperable with any conforming platform
+* Real-time, chronological timeline updates
+* Media attachments like images and short videos
+* Safety and moderation tools
+* OAuth2 and a straightforward REST API
+
