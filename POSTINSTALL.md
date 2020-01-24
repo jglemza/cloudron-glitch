@@ -3,9 +3,7 @@ This app integrates with Cloudron user management. Cloudron users can login and 
 Mastodon.
 </sso>
 
-**Production checklist**:
-
-* Make yourself [an admin](https://cloudron.io/documentation/apps/mastodon/#admin).
-* Configure Site settings at `Administration` -> `Site Settings`.
-* Verify the [federation domain](https://cloudron.io/documentation/apps/mastodon/#federation-domain). The federation domain cannot be changed later.
+**Important:** Accounts are created under with the username and the location under which
+this app was installed. e.g. `@username@mastodon.domain.com`. This cannot be changed later
+as it breaks federation.
 
