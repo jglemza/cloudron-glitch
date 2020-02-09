@@ -3,7 +3,7 @@ FROM cloudron/base:1.0.0@sha256:147a648a068a2e746644746bbfb42eb7a50d682437cead3c
 RUN mkdir -p /app/code /app/pkg
 WORKDIR /app/code
 
-ARG VERSION=3.0.1
+ARG VERSION=3.1.2
 
 RUN apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg && \
     echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list && \
@@ -16,12 +16,13 @@ RUN mkdir -p /usr/local/node-10.15.3 && \
 
 ENV PATH /usr/local/node-10.15.3/bin:$PATH
 
-RUN gem install --no-document bundler -v 1.17.3
+RUN gem install --no-document bundler
 
 ENV RAILS_ENV production
 ENV NODE_ENV production
 RUN curl -L https://github.com/tootsuite/mastodon/archive/v${VERSION}.tar.gz | tar -xz --strip-components 1 -f - && \
-    bundle install --deployment --without test development && \
+    bundle config set deployment 'true' && \
+    bundle install --without test development && \
     yarn install --pure-lockfile
 
 # secret keys are not built into assets, so precompiling is safe to do here
