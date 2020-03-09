@@ -60,6 +60,9 @@ if grep -q "^SECRET_KEY_BASE=$" /app/data/env.production; then
         PGPASSWORD=${CLOUDRON_POSTGRESQL_PASSWORD} psql -h ${CLOUDRON_POSTGRESQL_HOST} -p ${CLOUDRON_POSTGRESQL_PORT} -U ${CLOUDRON_POSTGRESQL_USERNAME} -d ${CLOUDRON_POSTGRESQL_DATABASE} \
             -c "INSERT INTO settings (var, value) VALUES ('registrations_mode', 'none')"
     fi
+else
+    echo "==> Migrating database"
+    HOME=/app/data SAFETY_ASSURED=1 bundle exec rails db:migrate
 fi
 
 chown -R cloudron:cloudron /app/data /tmp/mastodon /run/mastodon
