@@ -7,3 +7,6 @@
 [1.1.0]
 * Update Mastodon to 3.1.2
 
+[1.1.1]
+* Run db migration script on updates
+

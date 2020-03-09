@@ -5,7 +5,7 @@
   "description": "file://DESCRIPTION.md",
   "changelog": "file://CHANGELOG",
   "tagline": "Federated social network",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "healthCheckPath": "/about",
   "httpPort": 8000,
   "memoryLimit": 1073741824,
