@@ -1,7 +1,7 @@
 {
   "id": "org.joinmastodon.cloudronapp",
   "title": "Mastodon",
-  "author": "Matodon Authors",
+  "author": "Mastodon Authors",
   "description": "file://DESCRIPTION.md",
   "changelog": "file://CHANGELOG",
   "tagline": "Federated social network",
