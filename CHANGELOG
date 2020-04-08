@@ -10,3 +10,16 @@
 [1.1.1]
 * Run db migration script on updates
 
+[1.1.2]
+* Update Mastodon to 3.1.3
+* Add ability to filter audit log in admin UI (Gargron)
+* Add titles to warning presets in admin UI (Gargron)
+* Add option to include resolved DNS records when blacklisting e-mail domains in admin UI (Gargron)
+* Add ability to delete files uploaded for settings in admin UI (ThibG)
+* Add sorting by username, creation and last activity in admin UI (ThibG)
+* Add explanation as to why unlocked accounts may have follow requests in web UI (ThibG)
+* Add link to bookmarks to dropdown in web UI (mayaeh)
+* Add support for links to statuses in announcements to be opened in web UI (ThibG, ThibG)
+* Add tooltips to audio/video player buttons in web UI (ariasuni)
+* Add submit button to the top of preferences pages (guigeekz)
+

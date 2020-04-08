@@ -1,4 +1,4 @@
-This app packages Mastodon <upstream>3.1.2</upstream>.
+This app packages Mastodon <upstream>3.1.3</upstream>.
 
 Your self-hosted, globally interconnected microblogging community.
 
