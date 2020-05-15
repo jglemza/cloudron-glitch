@@ -1,20 +1,13 @@
-FROM cloudron/base:1.0.0@sha256:147a648a068a2e746644746bbfb42eb7a50d682437cead3c67c933c546357617
+FROM cloudron/base:2.0.0@sha256:f9fea80513aa7c92fe2e7bf3978b54c8ac5222f47a9a32a7f8833edf0eb5a4f4
 
 RUN mkdir -p /app/code /app/pkg
 WORKDIR /app/code
 
 ARG VERSION=3.1.3
 
-RUN apt-key adv --fetch-keys http://dl.yarnpkg.com/debian/pubkey.gpg && \
-    echo "deb http://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list && \
-    apt-get update && \
-    apt-get install -y yarn libprotobuf-dev protobuf-compiler libidn11-dev libicu-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm5 libgdbm-dev libicu-dev libssl-dev libyaml-dev libreadline6-dev libxml2-dev libxslt1-dev && \
+RUN apt-get update && \
+    apt-get install -y libprotobuf-dev protobuf-compiler libidn11-dev libicu-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm5 libgdbm-dev libicu-dev libssl-dev libyaml-dev libreadline6-dev libxml2-dev libxslt1-dev && \
     rm -rf /var/cache/apt /var/lib/apt/lists
-
-RUN mkdir -p /usr/local/node-10.15.3 && \
-    curl -L https://nodejs.org/dist/v10.15.3/node-v10.15.3-linux-x64.tar.gz | tar zxf - --strip-components 1 -C /usr/local/node-10.15.3
-
-ENV PATH /usr/local/node-10.15.3/bin:$PATH
 
 RUN gem install --no-document bundler
 
