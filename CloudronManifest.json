@@ -33,5 +33,7 @@
   ],
   "documentationUrl": "https://cloudron.io/documentation/apps/mastodon/",
   "postInstallMessage": "file://POSTINSTALL.md",
-  "optionalSso": true
+  "optionalSso": true,
+  "minBoxVersion": "5.3.0",
+  "forumUrl": "https://forum.cloudron.io/category/41/mastodon"
 }
