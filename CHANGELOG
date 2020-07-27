@@ -37,3 +37,18 @@
 * Security: Change rate limits for various paths (Gargron)
 * Security: Fix other sessions not being logged out on password change (Gargron)
 
+[1.4.0]
+* Update Mastodon to 3.2.0
+* [Full changelog](https://github.com/tootsuite/mastodon/releases/tag/v3.2.0)
+* Add hotkey for toggling content warning input in web UI (ThibG)
+* Add support for summary field for media description in ActivityPub (ThibG)
+* Add hints about incomplete remote content to web UI (Gargron, noellabo)
+* Add personal notes for accounts (ThibG, Gargron, Sasha-Sorokin)
+* Add customizable thumbnails for audio and video attachments (Gargron, Gargron, Gargron, Gargron, ThibG, ThibG, noellabo, noellabo)
+* Add a visibility indicator to toots in web UI (noellabo, highemerly)
+* Add tootctl email_domain_blocks (tateisu, Gargron)
+* Add "Add new domain block" to header of federation page in admin UI (ariasuni)
+* Add ability to keep emoji picker open with ctrl+click in web UI (bclindner, noellabo)
+* Add custom icon for private boosts in web UI (ThibG)
+* Add support for Create and Update activities that don't inline objects in ActivityPub (ThibG)
+* Add support for Undo activities that don't inline activities in ActivityPub (ThibG)
