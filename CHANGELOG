@@ -52,3 +52,6 @@
 * Add custom icon for private boosts in web UI (ThibG)
 * Add support for Create and Update activities that don't inline objects in ActivityPub (ThibG)
 * Add support for Undo activities that don't inline activities in ActivityPub (ThibG)
+
+[1.4.1]
+* Add cron job to cleanup cached files
