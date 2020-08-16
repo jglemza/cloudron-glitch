@@ -14,7 +14,13 @@
     "postgresql": {},
     "redis": {},
     "sendmail": {},
-    "ldap": {}
+    "ldap": {},
+    "scheduler": {
+      "cleanup": {
+        "schedule": "11 11 * * *",
+        "command": "/app/pkg/cleanup.sh"
+      }
+    }
   },
   "minBoxVersion": "4.1.4",
   "manifestVersion": 2,

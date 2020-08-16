@@ -41,7 +41,7 @@ RUN ln -fs /run/mastodon/bullet.log /app/code/log/bullet.log
 RUN ln -fs /app/data/system /app/code/public/system
 RUN rm -rf /app/code/tmp && ln -fs /tmp/mastodon /app/code/tmp
 
-COPY start.sh env.template /app/pkg/
+COPY start.sh cleanup.sh env.template /app/pkg/
 
 CMD [ "/app/pkg/start.sh" ]
 
