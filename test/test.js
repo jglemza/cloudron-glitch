@@ -13,10 +13,7 @@ require('chromedriver');
 
 var execSync = require('child_process').execSync,
     expect = require('expect.js'),
-    fs = require('fs'),
-    path = require('path'),
-    superagent = require('superagent'),
-    webdriver = require('selenium-webdriver');
+    path = require('path');
 
 var by = require('selenium-webdriver').By,
     until = require('selenium-webdriver').until,
@@ -28,7 +25,6 @@ describe('Application life cycle test', function () {
     this.timeout(0);
 
     var server, browser = new Builder().forBrowser('chrome').build();
-    var uploadedImageUrl;
     var username = process.env.USERNAME, password = process.env.PASSWORD;
 
     before(function (done) {
@@ -46,18 +42,10 @@ describe('Application life cycle test', function () {
         done();
     });
 
+    var EXEC_ARGS = { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' };
     var LOCATION = 'test';
     var TIMEOUT = parseInt(process.env.TIMEOUT, 10) || 30000;
     var app;
-    var email, token;
-
-    function waitForUrl(url) {
-        return browser.wait(function () {
-            return browser.getCurrentUrl().then(function (currentUrl) {
-                return currentUrl === url;
-            });
-        }, TIMEOUT);
-    }
 
     function checkRegistration(mode, done) {
         browser.get('https://' + app.fqdn).then(function () {
@@ -76,7 +64,7 @@ describe('Application life cycle test', function () {
     function login(username, password, done) {
         browser.get('https://' + app.fqdn + '/about').then(function () { // there is also separate login page at /users/sign_in
             return browser.wait(until.elementLocated(by.xpath('//button[contains(text(), "Log in")]')), TIMEOUT);
-        }).then(function (done) {
+        }).then(function () {
             return browser.findElement(by.id('login_user_email')).sendKeys(username);
         }).then(function () {
             return browser.findElement(by.id('login_user_password')).sendKeys(password);
@@ -117,67 +105,40 @@ describe('Application life cycle test', function () {
         });
     }
 
-    xit('build app', function () {
-        execSync('cloudron build', { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' });
-    });
-
-    it('install app', function () {
-        execSync('cloudron install --location ' + LOCATION, { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' });
-    });
-
-    it('can get app information', function () {
+    function getAppInfo() {
         var inspect = JSON.parse(execSync('cloudron inspect'));
-
-        app = inspect.apps.filter(function (a) { return a.location === LOCATION; })[0];
-
+        app = inspect.apps.filter(function (a) { return a.location === LOCATION || a.location === LOCATION + '2'; })[0];
         expect(app).to.be.an('object');
-    });
+    }
+
+    xit('build app', function () { execSync('cloudron build', EXEC_ARGS); });
+    it('install app', function () { execSync('cloudron install --location ' + LOCATION, EXEC_ARGS); });
+
+    it('can get app information', getAppInfo);
     it('registration is disabled', checkRegistration.bind(null, 'none'));
     it('can LDAP login', login.bind(null, username, password));
     it('can skip tutorial', skipTutorial);
     it('can see timeline', checkTimeline);
 
-    it('backup app', function () {
-        execSync('cloudron backup create --app ' + app.id, { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' });
-    });
+    it('backup app', function () { execSync('cloudron backup create --app ' + app.id, EXEC_ARGS); });
+    it('restore app', function () { execSync('cloudron restore --app ' + app.id, EXEC_ARGS); });
+
     it('can see timeline', checkTimeline);
 
-    it('restore app', function () {
-        execSync('cloudron restore --app ' + app.id, { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' });
-    });
+    it('can restart app', function () { execSync('cloudron restart --app ' + app.id, EXEC_ARGS); });
     it('can see timeline', checkTimeline);
 
-    it('can restart app', function (done) {
-        execSync('cloudron restart --app ' + app.id);
-        done();
-    });
-    it('can see timeline', checkTimeline);
+    it('move to different location', function () { execSync('cloudron configure --location ' + LOCATION + '2 --app ' + app.id, EXEC_ARGS); });
+    it('can get app information', getAppInfo);
 
-    it('move to different location', function () {
-        execSync('cloudron configure --location ' + LOCATION + '2 --app ' + app.id, { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' });
-        var inspect = JSON.parse(execSync('cloudron inspect'));
-        app = inspect.apps.filter(function (a) { return a.location === LOCATION + '2'; })[0];
-        expect(app).to.be.an('object');
-    });
     it('can LDAP login', login.bind(null, username, password));
     it('can see timeline', checkTimeline);
 
-    it('uninstall app', function () {
-        execSync('cloudron uninstall --app ' + app.id, { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' });
-    });
+    it('uninstall app', function () { execSync('cloudron uninstall --app ' + app.id, EXEC_ARGS); });
 
     // No SSO
-    it('install app (no sso)', function () {
-        execSync('cloudron install --no-sso --location ' + LOCATION, { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' });
-    });
-
-    it('can get app information', function () {
-        var inspect = JSON.parse(execSync('cloudron inspect'));
-
-        app = inspect.apps.filter(function (a) { return a.location === LOCATION; })[0];
-
-        expect(app).to.be.an('object');
-    });
+    it('install app (no sso)', function () { execSync('cloudron install --no-sso --location ' + LOCATION, EXEC_ARGS); });
+    it('can get app information', getAppInfo);
 
     it('has registration open', checkRegistration.bind(null, 'open'));
     let testPassword;
@@ -193,24 +154,14 @@ describe('Application life cycle test', function () {
         return browser.wait(until.elementLocated(by.xpath('//span[contains(text(), "Waiting for e-mail confirmation to be completed")]')), TIMEOUT);
     });
 
-    it('uninstall app (no sso)', function () {
-        execSync('cloudron uninstall --app ' + app.id, { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' });
-    });
+    it('uninstall app (no sso)', function () { execSync('cloudron uninstall --app ' + app.id, EXEC_ARGS); });
 
     // test update
-    it('can install app', function () {
-        execSync('cloudron install --appstore-id ' + app.manifest.id + ' --location ' + LOCATION, { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' });
-        var inspect = JSON.parse(execSync('cloudron inspect'));
-        app = inspect.apps.filter(function (a) { return a.location === LOCATION; })[0];
-        expect(app).to.be.an('object');
-    });
+    it('can install app', function () { execSync('cloudron install --appstore-id ' + app.manifest.id + ' --location ' + LOCATION, EXEC_ARGS); });
+    it('can get app information', getAppInfo);
     it('can LDAP login', login.bind(null, username, password));
-    it('can update', function () {
-        execSync('cloudron update --app ' + LOCATION, { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' });
-    });
+    it('can update', function () { execSync('cloudron update --app ' + LOCATION, EXEC_ARGS); });
     it('can LDAP login', login.bind(null, username, password));
 
-    it('uninstall app', function () {
-        execSync('cloudron uninstall --app ' + app.id, { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' });
-    });
+    it('uninstall app', function () { execSync('cloudron uninstall --app ' + app.id, EXEC_ARGS); });
 });
