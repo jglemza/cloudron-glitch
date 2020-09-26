@@ -34,8 +34,8 @@
     "twitter"
   ],
   "mediaLinks": [
-    "https://cloudron-app-screenshots.s3.amazonaws.com/org.joinmastodon.cloudronapp/5093bc19e9f74b38c1012c7fe0bc88153f5d054a/1.jpg",
-    "https://cloudron-app-screenshots.s3.amazonaws.com/org.joinmastodon.cloudronapp/5093bc19e9f74b38c1012c7fe0bc88153f5d054a/2.png"
+    "https://screenshots.cloudron.io/org.joinmastodon.cloudronapp/1.jpg",
+    "https://screenshots.cloudron.io/org.joinmastodon.cloudronapp/2.png"
   ],
   "documentationUrl": "https://cloudron.io/documentation/apps/mastodon/",
   "postInstallMessage": "file://POSTINSTALL.md",
