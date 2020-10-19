@@ -55,3 +55,14 @@
 
 [1.4.1]
 * Add cron job to cleanup cached files
+
+[1.4.2]
+* Update Mastodon to 3.2.1
+* [Full changelog](https://github.com/tootsuite/mastodon/releases/tag/v3.2.1)
+* Add support for latest HTTP Signatures spec draft (ThibG)
+* Add support for inlined objects in ActivityPub to/cc (ThibG)
+* Fix crash when failing to load emoji picker in web UI (ThibG)
+* Fix contrast requirements in thumbnail color extraction (ThibG)
+* Fix audio/video player not using CDN_HOST on public pages (ThibG)
+* Fix private boost icon not being used on public pages (OmmyZhang)
+* Fix audio player on Safari in web UI (ThibG, ThibG)

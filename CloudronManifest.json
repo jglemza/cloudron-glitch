@@ -5,7 +5,7 @@
   "description": "file://DESCRIPTION.md",
   "changelog": "file://CHANGELOG",
   "tagline": "Federated social network",
-  "version": "1.4.1-1",
+  "version": "1.4.2",
   "healthCheckPath": "/about",
   "httpPort": 8000,
   "memoryLimit": 1610612736,
@@ -37,7 +37,7 @@
     "https://screenshots.cloudron.io/org.joinmastodon.cloudronapp/1.jpg",
     "https://screenshots.cloudron.io/org.joinmastodon.cloudronapp/2.png"
   ],
-  "documentationUrl": "https://cloudron.io/documentation/apps/mastodon/",
+  "documentationUrl": "https://docs.cloudron.io/apps/mastodon/",
   "postInstallMessage": "file://POSTINSTALL.md",
   "optionalSso": true,
   "minBoxVersion": "5.5.0",
