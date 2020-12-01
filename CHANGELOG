@@ -66,3 +66,7 @@
 * Fix audio/video player not using CDN_HOST on public pages (ThibG)
 * Fix private boost icon not being used on public pages (OmmyZhang)
 * Fix audio player on Safari in web UI (ThibG, ThibG)
+
+[1.4.3]
+* Install ffmpeg. This was causing sidekiq jobs to fail
+
