@@ -6,7 +6,12 @@ WORKDIR /app/code
 ARG VERSION=3.2.1
 
 RUN apt-get update && \
-    apt-get install -y libprotobuf-dev protobuf-compiler libidn11-dev libicu-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm5 libgdbm-dev libicu-dev libssl-dev libyaml-dev libreadline6-dev libxml2-dev libxslt1-dev && \
+    apt install -y imagemagick ffmpeg libpq-dev libxml2-dev libxslt1-dev file git-core \
+        g++ libprotobuf-dev protobuf-compiler pkg-config nodejs gcc autoconf \
+        bison build-essential libssl-dev libyaml-dev libreadline6-dev \
+        zlib1g-dev libncurses5-dev libffi-dev libgdbm-dev \
+        nginx redis-server redis-tools postgresql postgresql-contrib \
+        certbot python-certbot-nginx yarn libidn11-dev libicu-dev libjemalloc-dev && \
     rm -rf /var/cache/apt /var/lib/apt/lists
 
 RUN gem install --no-document bundler
