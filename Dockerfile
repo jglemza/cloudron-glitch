@@ -3,7 +3,7 @@ FROM cloudron/base:2.0.0@sha256:f9fea80513aa7c92fe2e7bf3978b54c8ac5222f47a9a32a7
 RUN mkdir -p /app/code /app/pkg
 WORKDIR /app/code
 
-ARG VERSION=3.2.1
+ARG VERSION=3.2.2
 
 RUN apt-get update && \
     apt install -y imagemagick ffmpeg libpq-dev libxml2-dev libxslt1-dev file git-core \

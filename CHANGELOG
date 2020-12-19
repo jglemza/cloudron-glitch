@@ -70,3 +70,15 @@
 [1.4.3]
 * Install ffmpeg. This was causing sidekiq jobs to fail
 
+[1.4.4]
+* Update Mastodon to 3.2.2
+* Remove dependency on unused and unmaintained http_parser.rb gem (ThibG)
+* Fix Move handler not being triggered when failing to fetch target account (ThibG)
+* Fix downloading remote media files when server returns empty filename (ThibG)
+* Fix possible casing inconsistencies in hashtag search (ThibG)
+* Fix updating account counters when association is not yet created (Gargron)
+* Fix account processing failing because of large collections (ThibG)
+* Fix resolving an account through its non-canonical form (i.e. alternate domain) (ThibG)
+* Fix slow distinct queries where grouped queries are faster (Gargron)
+* Fix 2FA/sign-in token sessions being valid after password change (Gargron)
+* Fix resolving accounts sometimes creating duplicate records for a given ActivityPub identifier (ThibG)
