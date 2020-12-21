@@ -42,6 +42,8 @@ else
     sed -e "s/LDAP_ENABLED=.*/LDAP_ENABLED=false/g" -i /app/data/env.production
 fi
 
+rm -f /run/mastodon/Gemfile.lock && cp /app/code/Gemfile.lock.original /run/mastodon/Gemfile.lock
+
 if grep -q "^SECRET_KEY_BASE=$" /app/data/env.production; then
     echo "==> Generating secrets"
     export RANDFILE=/tmp/.rnd

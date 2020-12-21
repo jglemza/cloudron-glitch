@@ -28,11 +28,15 @@ RUN curl -L https://github.com/tootsuite/mastodon/archive/v${VERSION}.tar.gz | t
 RUN SECRET_KEY_BASE=insecure.secret_key_base OTP_SECRET=insecure.otp_secret \
     bundle exec rake assets:precompile
 
+# https://github.com/rubygems/bundler/issues/5245 means that bundle exec writes to Gemfile.lock
+RUN ln -fs /run/mastodon/bullet.log /app/code/log/bullet.log && \
+    rm -rf /app/code/tmp && ln -fs /tmp/mastodon /app/code/tmp && \
+    mv /app/code/Gemfile.lock /app/code/Gemfile.lock.original && ln -s /run/mastodon/Gemfile.lock /app/code/Gemfile.lock
+
 # add nginx config
-USER root
-RUN rm /etc/nginx/sites-enabled/*
-RUN ln -sf /dev/stdout /var/log/nginx/access.log
-RUN ln -sf /dev/stderr /var/log/nginx/error.log
+RUN rm /etc/nginx/sites-enabled/* && \
+    ln -sf /dev/stdout /var/log/nginx/access.log && \
+    ln -sf /dev/stderr /var/log/nginx/error.log
 ADD nginx_readonlyrootfs.conf /etc/nginx/conf.d/readonlyrootfs.conf
 COPY nginx/mastodon.conf /etc/nginx/sites-available/mastodon
 RUN ln -s /etc/nginx/sites-available/mastodon /etc/nginx/sites-enabled/mastodon
@@ -42,9 +46,7 @@ ADD supervisor/* /etc/supervisor/conf.d/
 RUN ln -sf /run/mastodon/supervisord.log /var/log/supervisor/supervisord.log
 
 RUN ln -fs /app/data/env.production /app/code/.env.production
-RUN ln -fs /run/mastodon/bullet.log /app/code/log/bullet.log
 RUN ln -fs /app/data/system /app/code/public/system
-RUN rm -rf /app/code/tmp && ln -fs /tmp/mastodon /app/code/tmp
 
 COPY start.sh cleanup.sh env.template /app/pkg/
 
