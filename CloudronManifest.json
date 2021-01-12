@@ -28,11 +28,7 @@
   "contactEmail": "support@cloudron.io",
   "icon": "logo.png",
   "tags": [
-    "social",
-    "forum",
-    "chat",
-    "twitter"
-  ],
+    "social", "forum", "chat", "twitter", "federated"  ],
   "mediaLinks": [
     "https://screenshots.cloudron.io/org.joinmastodon.cloudronapp/1.jpg",
     "https://screenshots.cloudron.io/org.joinmastodon.cloudronapp/2.png"
