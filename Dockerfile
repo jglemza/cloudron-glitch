@@ -1,4 +1,4 @@
-FROM cloudron/base:2.0.0@sha256:f9fea80513aa7c92fe2e7bf3978b54c8ac5222f47a9a32a7f8833edf0eb5a4f4
+FROM cloudron/base:3.0.0@sha256:455c70428723e3a823198c57472785437eb6eab082e79b3ff04ea584faf46e92
 
 RUN mkdir -p /app/code /app/pkg
 WORKDIR /app/code
@@ -11,7 +11,7 @@ RUN apt-get update && \
         bison build-essential libssl-dev libyaml-dev libreadline6-dev \
         zlib1g-dev libncurses5-dev libffi-dev libgdbm-dev \
         nginx redis-server redis-tools postgresql postgresql-contrib \
-        certbot python-certbot-nginx yarn libidn11-dev libicu-dev libjemalloc-dev && \
+        libidn11-dev libicu-dev libjemalloc-dev && \
     rm -rf /var/cache/apt /var/lib/apt/lists
 
 RUN gem install --no-document bundler
