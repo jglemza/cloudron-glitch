@@ -93,3 +93,7 @@
 * Add home link to the getting started column when home isn't mounted (ThibG)
 * Add option to disable swiping motions across the web UI (ThibG)
 * Add pop-out player for audio/video in web UI (Gargron, Gargron, Gargron, noellabo) 
+
+[1.6.0]
+* Update base image to v3
+
