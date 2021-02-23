@@ -19,8 +19,6 @@ var by = require('selenium-webdriver').By,
     until = require('selenium-webdriver').until,
     Builder = require('selenium-webdriver').Builder;
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
 describe('Application life cycle test', function () {
     this.timeout(0);
 
