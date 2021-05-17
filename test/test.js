@@ -1,11 +1,10 @@
 #!/usr/bin/env node
 
-/* jslint node:true */
-/* global it:false */
-/* global xit:false */
-/* global describe:false */
-/* global before:false */
-/* global after:false */
+/* jshint esversion: 8 */
+/* global describe */
+/* global before */
+/* global after */
+/* global it */
 
 'use strict';
 
@@ -13,46 +12,44 @@ require('chromedriver');
 
 var execSync = require('child_process').execSync,
     expect = require('expect.js'),
-    path = require('path');
+    path = require('path'),
+    fs = require('fs'),
+    { Builder, By, Key, until } = require('selenium-webdriver'),
+    { Options } = require('selenium-webdriver/chrome');
 
-var by = require('selenium-webdriver').By,
-    until = require('selenium-webdriver').until,
-    Builder = require('selenium-webdriver').Builder;
+if (!process.env.USERNAME || !process.env.PASSWORD) {
+    console.log('USERNAME and PASSWORD env vars need to be set');
+    process.exit(1);
+}
 
 describe('Application life cycle test', function () {
     this.timeout(0);
 
-    var server, browser = new Builder().forBrowser('chrome').build();
-    var username = process.env.USERNAME, password = process.env.PASSWORD;
+    const LOCATION = 'test';
+    const TEST_TIMEOUT = 10000;
+    const EXEC_ARGS = { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' };
 
-    before(function (done) {
-        var seleniumJar= require('selenium-server-standalone-jar');
-        var SeleniumServer = require('selenium-webdriver/remote').SeleniumServer;
-        server = new SeleniumServer(seleniumJar.path, { port: 4444 });
-        server.start();
+    let browser, app;
+    let username = process.env.USERNAME;
+    let password = process.env.PASSWORD;
+    let manifest = require('../CloudronManifest.json');
 
-        done();
+    before(function () {
+        browser = new Builder().forBrowser('chrome').setChromeOptions(new Options().windowSize({ width: 1280, height: 1024 })).build();
     });
 
-    after(function (done) {
+    after(function () {
         browser.quit();
-        server.stop();
-        done();
     });
-
-    var EXEC_ARGS = { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' };
-    var LOCATION = 'test';
-    var TIMEOUT = parseInt(process.env.TIMEOUT, 10) || 30000;
-    var app;
 
     function checkRegistration(mode, done) {
         browser.get('https://' + app.fqdn).then(function () {
             return browser.sleep(2000);
         }).then(function () {
             if (mode === 'none') {
-                return browser.wait(until.elementLocated(by.xpath('//button[contains(text(), "is not accepting new members")]')), TIMEOUT);
+                return browser.wait(until.elementLocated(By.xpath('//button[contains(text(), "is not accepting new members")]')), TEST_TIMEOUT);
             } else if (mode === 'open') {
-                return browser.wait(until.elementLocated(by.xpath('//button[contains(text(), "Sign up")]')), TIMEOUT);
+                return browser.wait(until.elementLocated(By.xpath('//button[contains(text(), "Sign up")]')), TEST_TIMEOUT);
             }
         }).then(function () {
             done();
@@ -60,14 +57,14 @@ describe('Application life cycle test', function () {
     }
 
     function login(username, password, done) {
-        browser.get('https://' + app.fqdn + '/about').then(function () { // there is also separate login page at /users/sign_in
-            return browser.wait(until.elementLocated(by.xpath('//button[contains(text(), "Log in")]')), TIMEOUT);
+        browser.get('https://' + app.fqdn + '/auth/sign_in').then(function () { // there is also separate login page at /users/sign_in
+            return browser.wait(until.elementLocated(By.xpath('//button[contains(text(), "Log in")]')), TEST_TIMEOUT);
         }).then(function () {
-            return browser.findElement(by.id('login_user_email')).sendKeys(username);
+            return browser.findElement(By.id('user_email')).sendKeys(username);
         }).then(function () {
-            return browser.findElement(by.id('login_user_password')).sendKeys(password);
+            return browser.findElement(By.id('user_password')).sendKeys(password);
         }).then(function () {
-            return browser.findElement(by.xpath('//button[contains(text(), "Log in")]')).click();
+            return browser.findElement(By.xpath('//button[contains(text(), "Log in")]')).click();
         }).then(function () {
             return browser.sleep(3000); // can be wizard or timeline at this point
         }).then(function () {
@@ -75,21 +72,27 @@ describe('Application life cycle test', function () {
         });
     }
 
+    function logout(done) {
+        browser.get('https://' + app.fqdn + '/settings/preferences/appearance').then(function () { // there is also separate login page at /users/sign_in
+            return browser.wait(until.elementLocated(By.id('logout')), TEST_TIMEOUT);
+        }).then(function () {
+            return browser.findElement(By.id('logout')).click();
+        }).then(function () {
+            return browser.wait(until.elementLocated(By.id('user_email')), TEST_TIMEOUT);
+        }).then(function () {
+            return done();
+        });
+    }
+
     function skipTutorial(done) {
-        browser.findElement(by.xpath('//span[contains(text(), "Let\'s go")]')).click().then(function () {
-            return browser.sleep(2000);
+        browser.get('https://' + app.fqdn + '/web/start').then(function () {
+            return browser.wait(until.elementLocated(By.xpath('//span[text() = "Done"]')), TEST_TIMEOUT);
         }).then(function () {
-            return browser.findElement(by.xpath('//span[contains(text(), "Next")]')).click();
+            return browser.findElement(By.xpath('//span[text() = "Done"]')).click();
         }).then(function () {
-            return browser.sleep(2000);
+            return browser.sleep(3000); // can be wizard or timeline at this point
         }).then(function () {
-            return browser.findElement(by.xpath('//span[contains(text(), "Finish tutorial!")]')).click();
-        }).then(function () {
-            return browser.sleep(3000);
-        }).then(function () {
-            return browser.findElement(by.xpath('//a/span[contains(text(), "the public timeline")]')).click();
-        }).then(function () {
-            return browser.sleep(3000);
+            return browser.wait(until.elementLocated(By.xpath('//span[text() = "See some suggestions"]')), TEST_TIMEOUT);
         }).then(function () {
             done();
         });
@@ -97,7 +100,7 @@ describe('Application life cycle test', function () {
 
     function checkTimeline(done) {
         browser.get('https://' + app.fqdn + '/web/timelines/home').then(function () {
-            return browser.wait(until.elementLocated(by.xpath('//span[contains(text(), "Your home timeline is empty")]')), TIMEOUT);
+            return browser.wait(until.elementLocated(By.xpath('//span[text() = "See some suggestions"]')), TEST_TIMEOUT);
         }).then(function () {
             done();
         });
@@ -126,13 +129,19 @@ describe('Application life cycle test', function () {
     it('can restart app', function () { execSync('cloudron restart --app ' + app.id, EXEC_ARGS); });
     it('can see timeline', checkTimeline);
 
-    it('move to different location', function () { execSync('cloudron configure --location ' + LOCATION + '2 --app ' + app.id, EXEC_ARGS); });
+    it('move to different location', async function () {
+        await browser.get('about:blank');
+        execSync('cloudron configure --location ' + LOCATION + '2 --app ' + app.id, EXEC_ARGS);
+    });
     it('can get app information', getAppInfo);
 
     it('can LDAP login', login.bind(null, username, password));
     it('can see timeline', checkTimeline);
 
-    it('uninstall app', function () { execSync('cloudron uninstall --app ' + app.id, EXEC_ARGS); });
+    it('uninstall app', async function () {
+        await browser.get('about:blank');
+        execSync('cloudron uninstall --app ' + app.id, EXEC_ARGS);
+    });
 
     // No SSO
     it('install app (no sso)', function () { execSync('cloudron install --no-sso --location ' + LOCATION, EXEC_ARGS); });
@@ -149,16 +158,25 @@ describe('Application life cycle test', function () {
 
     it('can login (no sso)', (done) => login('test@cloudron.io', testPassword, done));
     it('shows confirmation page', function () {
-        return browser.wait(until.elementLocated(by.xpath('//span[contains(text(), "Waiting for e-mail confirmation to be completed")]')), TIMEOUT);
+        return browser.wait(until.elementLocated(By.xpath('//span[contains(text(), "Waiting for e-mail confirmation to be completed")]')), TEST_TIMEOUT);
     });
 
-    it('uninstall app (no sso)', function () { execSync('cloudron uninstall --app ' + app.id, EXEC_ARGS); });
+    it('uninstall app (no sso)', async function () {
+        await browser.get('about:blank');
+        execSync('cloudron uninstall --app ' + app.id, EXEC_ARGS);
+    });
 
     // test update
-    it('can install app', function () { execSync('cloudron install --appstore-id ' + app.manifest.id + ' --location ' + LOCATION, EXEC_ARGS); });
+    it('can install app', function () { execSync('cloudron install --appstore-id ' + manifest.id + ' --location ' + LOCATION, EXEC_ARGS); });
     it('can get app information', getAppInfo);
     it('can LDAP login', login.bind(null, username, password));
-    it('can update', function () { execSync('cloudron update --app ' + LOCATION, EXEC_ARGS); });
+    it('can logout', logout);
+
+    it('can update', async function () {
+        await browser.get('about:blank');
+        execSync('cloudron update --app ' + LOCATION, EXEC_ARGS);
+    });
+
     it('can LDAP login', login.bind(null, username, password));
 
     it('uninstall app', function () { execSync('cloudron uninstall --app ' + app.id, EXEC_ARGS); });
