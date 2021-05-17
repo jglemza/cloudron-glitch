@@ -9,15 +9,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "ejs": "^3.1.5",
     "expect.js": "^0.3.1",
-    "mkdirp": "^1.0.4",
-    "mocha": "^8.2.1",
-    "rimraf": "^3.0.2",
+    "mocha": "^8.4.0",
     "selenium-server-standalone-jar": "^3.141.59",
     "selenium-webdriver": "^3.6.0"
   },
   "dependencies": {
-    "chromedriver": "^87.0.4"
+    "chromedriver": "^90.0.0"
   }
 }
