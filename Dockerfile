@@ -3,8 +3,6 @@ FROM cloudron/base:3.0.0@sha256:455c70428723e3a823198c57472785437eb6eab082e79b3f
 RUN mkdir -p /app/code /app/pkg
 WORKDIR /app/code
 
-ARG VERSION=3.3.0
-
 RUN apt-get update && \
     apt install -y imagemagick ffmpeg libpq-dev libxml2-dev libxslt1-dev file git-core \
         g++ libprotobuf-dev protobuf-compiler pkg-config nodejs gcc autoconf \
@@ -18,6 +16,9 @@ RUN gem install --no-document bundler
 
 ENV RAILS_ENV production
 ENV NODE_ENV production
+
+ARG VERSION=3.4.0
+
 RUN curl -L https://github.com/tootsuite/mastodon/archive/v${VERSION}.tar.gz | tar -xz --strip-components 1 -f - && \
     bundle config set deployment 'true' && \
     bundle install --without test development && \
