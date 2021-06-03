@@ -102,3 +102,17 @@
 * Add follow recommendations for onboarding
 * Update dependencies
 
+[1.6.2]
+* Update Mastodon to 3.4.1
+* Add new emoji assets from Twemoji 13.1.0
+* Fix some ActivityPub identifiers in server actor outbox (ClearlyClaire)
+* Fix custom CSS path setting cookies and being uncacheable due to it (tribela)
+* Fix unread notification count when polling in web UI (ClearlyClaire)
+* Fix health check not being accessible through localhost (ClearlyClaire)
+* Fix some redis locks auto-releasing too fast (ClearlyClaire, ClearlyClaire)
+* Fix e-mail confirmations API not working correctly (Gargron)
+* Fix migration script not being able to run if it fails midway (ClearlyClaire)
+* Fix account deletion sometimes failing because of optimistic locks (ClearlyClaire)
+* Fix deprecated slash as division in SASS files (ClearlyClaire)
+* Fix tootctl search deploy compatibility error on Ruby 3 (ClearlyClaire)
+* Fix mailer jobs for deleted notifications erroring out (ClearlyClaire)
