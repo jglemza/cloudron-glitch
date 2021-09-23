@@ -49,7 +49,7 @@ RUN ln -sf /run/mastodon/supervisord.log /var/log/supervisor/supervisord.log
 RUN ln -fs /app/data/env.production /app/code/.env.production
 RUN ln -fs /app/data/system /app/code/public/system
 
-COPY start.sh cleanup.sh env.template /app/pkg/
+COPY start.sh cleanup.sh config.sh env.template /app/pkg/
 
 CMD [ "/app/pkg/start.sh" ]
 

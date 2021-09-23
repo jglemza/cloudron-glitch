@@ -69,6 +69,9 @@ fi
 
 chown -R cloudron:cloudron /app/data /tmp/mastodon /run/mastodon
 
+[[ ! -f /app/data/config.sh ]] && cp /app/pkg/config.sh /app/data/config.sh
+source /app/data/config.sh
+
 echo "==> Starting mastodon"
 exec /usr/bin/supervisord --configuration /etc/supervisor/supervisord.conf --nodaemon -i Mastodon
 
