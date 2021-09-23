@@ -10,11 +10,10 @@
 
 require('chromedriver');
 
-var execSync = require('child_process').execSync,
+const execSync = require('child_process').execSync,
     expect = require('expect.js'),
     path = require('path'),
-    fs = require('fs'),
-    { Builder, By, Key, until } = require('selenium-webdriver'),
+    { Builder, By, until } = require('selenium-webdriver'),
     { Options } = require('selenium-webdriver/chrome');
 
 if (!process.env.USERNAME || !process.env.PASSWORD) {
@@ -42,68 +41,45 @@ describe('Application life cycle test', function () {
         browser.quit();
     });
 
-    function checkRegistration(mode, done) {
-        browser.get('https://' + app.fqdn).then(function () {
-            return browser.sleep(2000);
-        }).then(function () {
-            if (mode === 'none') {
-                return browser.wait(until.elementLocated(By.xpath('//button[contains(text(), "is not accepting new members")]')), TEST_TIMEOUT);
-            } else if (mode === 'open') {
-                return browser.wait(until.elementLocated(By.xpath('//button[contains(text(), "Sign up")]')), TEST_TIMEOUT);
-            }
-        }).then(function () {
-            done();
-        });
+    async function checkRegistration(mode) {
+        await browser.get('https://' + app.fqdn);
+        await browser.sleep(2000);
+        if (mode === 'none') {
+            await browser.wait(until.elementLocated(By.xpath('//button[contains(text(), "is not accepting new members")]')), TEST_TIMEOUT);
+        } else if (mode === 'open') {
+            await browser.wait(until.elementLocated(By.xpath('//button[contains(text(), "Sign up")]')), TEST_TIMEOUT);
+        }
     }
 
-    function login(username, password, done) {
-        browser.get('https://' + app.fqdn + '/auth/sign_in').then(function () { // there is also separate login page at /users/sign_in
-            return browser.wait(until.elementLocated(By.xpath('//button[contains(text(), "Log in")]')), TEST_TIMEOUT);
-        }).then(function () {
-            return browser.findElement(By.id('user_email')).sendKeys(username);
-        }).then(function () {
-            return browser.findElement(By.id('user_password')).sendKeys(password);
-        }).then(function () {
-            return browser.findElement(By.xpath('//button[contains(text(), "Log in")]')).click();
-        }).then(function () {
-            return browser.sleep(3000); // can be wizard or timeline at this point
-        }).then(function () {
-            return done();
-        });
+    async function login(username, password) {
+        await browser.get('https://' + app.fqdn + '/auth/sign_in'); // there is also separate login page at /users/sign_in
+        await browser.wait(until.elementLocated(By.xpath('//button[contains(text(), "Log in")]')), TEST_TIMEOUT);
+        await browser.findElement(By.id('user_email')).sendKeys(username);
+        await browser.findElement(By.id('user_password')).sendKeys(password);
+        await browser.findElement(By.xpath('//button[contains(text(), "Log in")]')).click();
+        await browser.sleep(3000); // can be wizard or timeline at this point
     }
 
-    function logout(done) {
-        browser.get('https://' + app.fqdn + '/settings/preferences/appearance').then(function () { // there is also separate login page at /users/sign_in
-            return browser.wait(until.elementLocated(By.id('logout')), TEST_TIMEOUT);
-        }).then(function () {
-            return browser.findElement(By.id('logout')).click();
-        }).then(function () {
-            return browser.wait(until.elementLocated(By.id('user_email')), TEST_TIMEOUT);
-        }).then(function () {
-            return done();
-        });
+    async function logout() {
+        await browser.get('https://' + app.fqdn + '/settings/preferences/appearance'); // there is also separate login page at /users/sign_in
+        await browser.wait(until.elementLocated(By.id('logout')), TEST_TIMEOUT);
+        await browser.findElement(By.id('logout')).click();
+        await browser.wait(until.elementLocated(By.id('user_email')), TEST_TIMEOUT);
     }
 
-    function skipTutorial(done) {
-        browser.get('https://' + app.fqdn + '/web/start').then(function () {
-            return browser.wait(until.elementLocated(By.xpath('//span[text() = "Done"]')), TEST_TIMEOUT);
-        }).then(function () {
-            return browser.findElement(By.xpath('//span[text() = "Done"]')).click();
-        }).then(function () {
-            return browser.sleep(3000); // can be wizard or timeline at this point
-        }).then(function () {
-            return browser.wait(until.elementLocated(By.xpath('//span[text() = "See some suggestions"]')), TEST_TIMEOUT);
-        }).then(function () {
-            done();
-        });
+    async function skipTutorial() {
+        await browser.get('https://' + app.fqdn + '/web/start');
+        await browser.wait(until.elementLocated(By.xpath('//button/span[text() = "Done"]')), TEST_TIMEOUT);
+        await browser.findElement(By.xpath('//button/span[text() = "Done"]')).click();
+        await browser.sleep(5000); // can be wizard or timeline at this point
+        await browser.wait(until.elementLocated(By.xpath('//span[text() = "See some suggestions"]')), TEST_TIMEOUT);
+        await browser.sleep(5000);
     }
 
-    function checkTimeline(done) {
-        browser.get('https://' + app.fqdn + '/web/timelines/home').then(function () {
-            return browser.wait(until.elementLocated(By.xpath('//span[text() = "See some suggestions"]')), TEST_TIMEOUT);
-        }).then(function () {
-            done();
-        });
+    async function checkTimeline() {
+        await browser.get('https://' + app.fqdn + '/web/timelines/home');
+        await browser.sleep(2000);
+        await browser.wait(until.elementLocated(By.xpath('//span[text() = "See some suggestions"]')), TEST_TIMEOUT);
     }
 
     function getAppInfo() {
@@ -121,8 +97,13 @@ describe('Application life cycle test', function () {
     it('can skip tutorial', skipTutorial);
     it('can see timeline', checkTimeline);
 
-    it('backup app', function () { execSync('cloudron backup create --app ' + app.id, EXEC_ARGS); });
-    it('restore app', function () { execSync('cloudron restore --app ' + app.id, EXEC_ARGS); });
+    it('restore app', function () {
+        const backups = JSON.parse(execSync('cloudron backup list --raw'));
+        execSync('cloudron uninstall --app ' + app.id, EXEC_ARGS);
+        execSync('cloudron install --location ' + LOCATION, EXEC_ARGS);
+        getAppInfo();
+        execSync(`cloudron restore --backup ${backups[0].id} --app ${app.id}`, EXEC_ARGS);
+    });
 
     it('can see timeline', checkTimeline);
 
