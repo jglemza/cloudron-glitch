@@ -116,3 +116,7 @@
 * Fix deprecated slash as division in SASS files (ClearlyClaire)
 * Fix tootctl search deploy compatibility error on Ruby 3 (ClearlyClaire)
 * Fix mailer jobs for deleted notifications erroring out (ClearlyClaire)
+
+[1.7.0]
+* Add `/app/data/config.sh` to customize puma, sidekiq and streaming configs
+
