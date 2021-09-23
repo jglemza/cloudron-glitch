@@ -5,6 +5,7 @@
 /* global before */
 /* global after */
 /* global it */
+/* global xit */
 
 'use strict';
 
@@ -140,7 +141,10 @@ describe('Application life cycle test', function () {
         console.log(testPassword);
     });
 
-    it('can login (no sso)', (done) => login('test@cloudron.io', testPassword, done));
+    it('can login (no sso)', async function () {
+        await login('test@cloudron.io', testPassword);
+    });
+
     it('shows confirmation page', function () {
         return browser.wait(until.elementLocated(By.xpath('//span[contains(text(), "Waiting for e-mail confirmation to be completed")]')), TEST_TIMEOUT);
     });
