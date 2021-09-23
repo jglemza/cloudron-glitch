@@ -96,7 +96,9 @@ describe('Application life cycle test', function () {
     it('can LDAP login', login.bind(null, username, password));
     it('can skip tutorial', skipTutorial);
     it('can see timeline', checkTimeline);
+    it('can logout', logout);
 
+    it('backup app', function () { execSync('cloudron backup create --app ' + app.id, EXEC_ARGS); });
     it('restore app', function () {
         const backups = JSON.parse(execSync('cloudron backup list --raw'));
         execSync('cloudron uninstall --app ' + app.id, EXEC_ARGS);
@@ -105,6 +107,7 @@ describe('Application life cycle test', function () {
         execSync(`cloudron restore --backup ${backups[0].id} --app ${app.id}`, EXEC_ARGS);
     });
 
+    it('can LDAP login', login.bind(null, username, password));
     it('can see timeline', checkTimeline);
 
     it('can restart app', function () { execSync('cloudron restart --app ' + app.id, EXEC_ARGS); });
