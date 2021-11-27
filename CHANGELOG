@@ -131,3 +131,15 @@
 * Fix locale-specific number rounding errors (ClearlyClaire)
 * Fix scheduling a status decreasing status count (ClearlyClaire)
 * Fix user's canonical email address being blocked when user deletes own account (ClearlyClaire)
+
+[1.7.2]
+* Update Mastodon to 3.4.4
+* [Full changelog](https://github.com/mastodon/mastodon/releases/tag/v3.4.4)
+* Fix error when suspending user with an already blocked canonical email (ClearlyClaire)
+* Fix overflow of long profile fields in admin UI (ClearlyClaire)
+* Fix confusing error when WebFinger request returns empty document (ClearlyClaire)
+* Fix upload of remote media with OpenStack Swift sometimes failing (ClearlyClaire)
+* Fix logout link not working in Safari (noellabo)
+* Fix “open” link of media modal not closing modal in web UI (ClearlyClaire)
+* Fix replying from modal in web UI (ClearlyClaire)
+

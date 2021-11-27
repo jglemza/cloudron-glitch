@@ -1,4 +1,4 @@
-This app packages Mastodon <upstream>3.4.3</upstream>.
+This app packages Mastodon <upstream>3.4.4</upstream>.
 
 ## About
 
