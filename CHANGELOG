@@ -143,3 +143,6 @@
 * Fix “open” link of media modal not closing modal in web UI (ClearlyClaire)
 * Fix replying from modal in web UI (ClearlyClaire)
 
+[1.7.3]
+* Update base image to 3.2.0
+
