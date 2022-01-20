@@ -20,8 +20,10 @@ ENV NODE_ENV production
 ARG VERSION=3.4.4
 
 RUN curl -L https://github.com/tootsuite/mastodon/archive/v${VERSION}.tar.gz | tar -xz --strip-components 1 -f - && \
-    bundle config set deployment 'true' && \
-    bundle install --without test development && \
+    bundle config --local set deployment 'true' && \
+    bundle config --local set without 'development test' && \
+    bundle config --local set silence_root_warning true && \
+    bundle install && \
     yarn install --pure-lockfile
 
 # secret keys are not built into assets, so precompiling is safe to do here
