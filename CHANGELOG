@@ -150,3 +150,14 @@
 * Update Mastodon to 3.4.5
 * [Full changelog](https://github.com/mastodon/mastodon/releases/tag/v3.4.5)
 
+[1.7.5]
+* Update Mastodon to 3.4.6
+* [Full changelog](https://github.com/mastodon/mastodon/releases/tag/v3.4.6)
+* Fix mastodon:webpush:generate_vapid_key task requiring a functional environment (ClearlyClaire)
+* Fix spurious errors when receiving an Add activity for a private post (ClearlyClaire)
+* Fix error-prone SQL queries (ClearlyClaire)
+* Fix not compacting incoming signed JSON-LD activities (puckipedia, ClearlyClaire) (CVE-2022-24307)
+* Fix insufficient sanitization of report comments (ClearlyClaire)
+* Fix stop condition of a Common Table Expression (ClearlyClaire)
+* Disable legacy XSS filtering (Wonderfall)
+
