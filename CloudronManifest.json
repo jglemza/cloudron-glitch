@@ -5,7 +5,8 @@
   "description": "file://DESCRIPTION.md",
   "changelog": "file://CHANGELOG",
   "tagline": "Federated social network",
-  "version": "1.7.5",
+  "version": "1.8.0",
+  "upstreamVersion": "3.5.0",
   "healthCheckPath": "/about",
   "httpPort": 8000,
   "memoryLimit": 1610612736,
@@ -36,6 +37,6 @@
   "documentationUrl": "https://docs.cloudron.io/apps/mastodon/",
   "postInstallMessage": "file://POSTINSTALL.md",
   "optionalSso": true,
-  "minBoxVersion": "5.5.0",
+  "minBoxVersion": "7.1.2",
   "forumUrl": "https://forum.cloudron.io/category/41/mastodon"
 }
