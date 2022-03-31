@@ -146,7 +146,7 @@ describe('Application life cycle test', function () {
     });
 
     it('shows confirmation page', function () {
-        return browser.wait(until.elementLocated(By.xpath('//span[contains(text(), "Waiting for e-mail confirmation to be completed")]')), TEST_TIMEOUT);
+        return browser.wait(until.elementLocated(By.xpath('//div[contains(text(), "Waiting for e-mail confirmation to be completed")]')), TEST_TIMEOUT);
     });
 
     it('uninstall app (no sso)', async function () {
