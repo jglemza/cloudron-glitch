@@ -172,3 +172,12 @@
 * Add notifications for moderators about new sign-ups
 * Add ability to suspend accounts in batches in admin UI 
 
+[1.8.1]
+* Update Mastodon to 3.5.1
+* [Full changelog](https://github.com/mastodon/mastodon/releases/tag/v3.5.1)
+* Add pagination for trending statuses in web UI (Gargron)
+* Change e-mail notifications to only be sent when recipient is offline (Gargron)
+* Send e-mails for mentions and follows by default again
+* But only when recipient does not have push notifications through an app
+* Change website attribute to be nullable on Application entity in REST API (rinsuki)
+
