@@ -181,3 +181,12 @@
 * But only when recipient does not have push notifications through an app
 * Change website attribute to be nullable on Application entity in REST API (rinsuki)
 
+[1.8.2]
+* Update Mastodon to 3.5.2
+* [Full changelog](https://github.com/mastodon/mastodon/releases/tag/v3.5.2)
+* Add warning on direct messages screen in web UI (Gargron)
+  * We already had a warning when composing a direct message, it has now been reworded to be more clear
+  * Same warning is now displayed when viewing sent and received direct messages
+* Add ability to set approval-based registration through tootctl (ClearlyClaire)
+* Add pre-filling of domain from search filter in domain allow/block admin UI (ClearlyClaire)
+
