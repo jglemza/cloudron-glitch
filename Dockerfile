@@ -17,7 +17,7 @@ RUN gem install --no-document bundler
 ENV RAILS_ENV production
 ENV NODE_ENV production
 
-ARG VERSION=3.5.2
+ARG VERSION=3.5.3
 
 RUN curl -L https://github.com/tootsuite/mastodon/archive/v${VERSION}.tar.gz | tar -xz --strip-components 1 -f - && \
     bundle config --local set deployment 'true' && \
