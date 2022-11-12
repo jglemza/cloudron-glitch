@@ -1,5 +1,5 @@
 Accounts are created with the username and the subdomain under which this app is installed
- e.g. `@$CLOUDRON-USERNAME@$CLOUDRON-APP-DOMAIN`. Note that Mastodon does NOT allow this subdomain
+ e.g. `@$CLOUDRON-USERNAME@$CLOUDRON-APP-FQDN`. Note that Mastodon does NOT allow this subdomain
 to be changed later as it breaks federation. So, you have to set up Mastodon in the correct
 subdomain from the get-go.
 
