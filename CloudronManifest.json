@@ -10,6 +10,7 @@
   "healthCheckPath": "/about",
   "httpPort": 8000,
   "memoryLimit": 1610612736,
+  "configurePath": "/admin/dashboard",
   "addons": {
     "localstorage": {},
     "postgresql": {},
