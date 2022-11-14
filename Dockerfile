@@ -12,6 +12,16 @@ RUN apt-get update && \
         libidn11-dev libicu-dev libjemalloc-dev && \
     rm -rf /var/cache/apt /var/lib/apt/lists
 
+# install rbenv since we need ruby 3.0.4
+RUN mkdir -p /usr/local/rbenv && curl -LSs "https://github.com/rbenv/rbenv/archive/refs/tags/v1.2.0.tar.gz" | tar -xz -C /usr/local/rbenv --strip-components 1 -f -
+ENV PATH /usr/local/rbenv/bin:$PATH
+RUN mkdir -p "$(rbenv root)"/plugins/ruby-build && curl -LSs "https://github.com/rbenv/ruby-build/archive/refs/tags/v20221101.tar.gz" | tar -xz -C "$(rbenv root)"/plugins/ruby-build --strip-components 1 -f -
+
+# install specific ruby version (https://github.com/mastodon/mastodon/blob/main/Dockerfile)
+ARG RUBY_VERSION=3.0.4
+RUN rbenv install ${RUBY_VERSION}
+ENV PATH /root/.rbenv/versions/${RUBY_VERSION}/bin:$PATH
+
 RUN gem install --no-document bundler
 
 ENV RAILS_ENV production
