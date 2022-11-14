@@ -20,6 +20,8 @@ RUN mkdir -p "$(rbenv root)"/plugins/ruby-build && curl -LSs "https://github.com
 # install specific ruby version (https://github.com/mastodon/mastodon/blob/main/Dockerfile)
 ARG RUBY_VERSION=3.0.4
 RUN rbenv install ${RUBY_VERSION}
+# this allows cloudron user to access ruby
+RUN chmod o+rx /root
 ENV PATH /root/.rbenv/versions/${RUBY_VERSION}/bin:$PATH
 
 RUN gem install --no-document bundler
