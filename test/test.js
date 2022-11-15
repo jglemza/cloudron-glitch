@@ -26,7 +26,7 @@ describe('Application life cycle test', function () {
     this.timeout(0);
 
     const LOCATION = 'test';
-    const TEST_TIMEOUT = 10000;
+    const TEST_TIMEOUT = parseInt(process.env.TIMEOUT) || 10000;
     const EXEC_ARGS = { cwd: path.resolve(__dirname, '..'), stdio: 'inherit' };
 
     let browser, app;
@@ -42,13 +42,24 @@ describe('Application life cycle test', function () {
         browser.quit();
     });
 
+    async function exists(selector) {
+        await browser.wait(until.elementLocated(selector), TEST_TIMEOUT);
+    }
+
+    async function visible(selector) {
+        await exists(selector);
+        await browser.wait(until.elementIsVisible(browser.findElement(selector)), TEST_TIMEOUT);
+    }
+
     async function checkRegistration(mode) {
-        await browser.get('https://' + app.fqdn);
-        await browser.sleep(2000);
-        if (mode === 'none') {
-            await browser.wait(until.elementLocated(By.xpath('//button[contains(text(), "is not accepting new members")]')), TEST_TIMEOUT);
+       if (mode === 'none') {
+            await browser.get('https://' + app.fqdn);
+            await browser.sleep(2000);
+            await browser.findElement(By.xpath('//button/span[contains(text(), "Create account")]')).click();
+            await visible(By.xpath('//span[contains(text()[2], "is currently not possible")]'));
         } else if (mode === 'open') {
-            await browser.wait(until.elementLocated(By.xpath('//button[contains(text(), "Sign up")]')), TEST_TIMEOUT);
+            await browser.get('https://' + app.fqdn + '/auth/sign_up');
+            await visible(By.xpath('//button[contains(text(), "Sign up")]'));
         }
     }
 
@@ -78,7 +89,7 @@ describe('Application life cycle test', function () {
     }
 
     async function checkTimeline() {
-        await browser.get('https://' + app.fqdn + '/web/timelines/home');
+        await browser.get('https://' + app.fqdn + '/home');
         await browser.sleep(2000);
         await browser.wait(until.elementLocated(By.xpath('//span[text() = "See some suggestions"]')), TEST_TIMEOUT);
     }
