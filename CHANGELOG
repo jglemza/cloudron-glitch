@@ -197,3 +197,12 @@
 * Add warning for limited accounts in web UI (Gargron)
 * Add limited attribute to accounts in REST API (Gargron)
 
+[1.8.4]
+* Update Mastodon to 3.5.4
+* [Full changelog](https://github.com/mastodon/mastodon/releases/tag/v3.5.4)
+* Install ruby 3.0.4
+* Fix emoFix emoji substitution not applying only to text nodes in backend code (ClearlyClaire)
+* Fix emoji substitution not applying only to text nodes in Web UI (ClearlyClaire)
+* Fix rate limiting for paths with formats (Gargron)
+* Fix out-of-bound reads in blurhash transcoder (delroth)
+
