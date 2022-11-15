@@ -211,3 +211,23 @@
 * [Full changelog](https://github.com/mastodon/mastodon/releases/tag/v3.5.5)
 * Fix nodes order being sometimes mangled when rewriting emoji (ClearlyClaire)
 
+[1.9.0]
+* Update Mastodon to 4.0.2
+* [Full changelog](https://github.com/mastodon/mastodon/releases/tag/v4.0.0)
+* Add ability to filter followed accounts' posts by language (Gargron, ClearlyClaire)
+* Add ability to follow hashtags (Gargron, Gargron, Gargron, noellabo)
+* Add ability to filter individual posts (ClearlyClaire)
+* Add ability to translate posts (Gargron, ClearlyClaire, Gargron, ClearlyClaire, Gargron, ykzts, Gargron)
+* Add featured tags to web UI (noellabo, noellabo, noellabo, noellabo, Gargron, ykzts, noellabo, noellabo, Gargron, Gargron, ClearlyClaire)
+* Add support for language preferences for trending statuses and links (Gargron, Gargron, ykzts)
+* Add server rules to sign-up flow (Gargron)
+* Add privacy icons to report modal in web UI (ClearlyClaire)
+* Add noopener to links to remote profiles in web UI (shleeable)
+* Add option to open original page in dropdowns of remote content in web UI (Gargron)
+* Add warning for sensitive audio posts in web UI (rgroothuijsen)
+* Add language attribute to posts in web UI (tribela)
+* Add support for uploading WebP files (Saiv46)
+* Add support for uploading audio/vnd.wave files (tribela)
+* Add support for uploading AVIF files (txt-file)
+* Add support for uploading HEIC files (Gargron)
+
