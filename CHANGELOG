@@ -231,3 +231,6 @@
 * Add support for uploading AVIF files (txt-file)
 * Add support for uploading HEIC files (Gargron)
 
+[1.9.0-1]
+* Cleanup preview-cards cache and orphaned media
+
