@@ -70,7 +70,8 @@ fi
 chown -R cloudron:cloudron /tmp/mastodon /run/mastodon
 
 if [[ "$(stat -c '%U' /app/data)" != "cloudron" ]]; then
-    chown -R cloudron:cloudron /app/data
+    chown -R cloudron:cloudron /app/data/*
+    chown cloudron:clourdon /app/data
 fi
 
 [[ ! -f /app/data/config.sh ]] && cp /app/pkg/config.sh /app/data/config.sh
