@@ -67,7 +67,11 @@ else
     HOME=/app/data SAFETY_ASSURED=1 bundle exec rails db:migrate
 fi
 
-chown -R cloudron:cloudron /app/data /tmp/mastodon /run/mastodon
+chown -R cloudron:cloudron /tmp/mastodon /run/mastodon
+
+if [[ "$(stat -c '%U' /app/data)" != "cloudron" ]]; then
+    chown -R cloudron:cloudron /app/data
+fi
 
 [[ ! -f /app/data/config.sh ]] && cp /app/pkg/config.sh /app/data/config.sh
 source /app/data/config.sh
