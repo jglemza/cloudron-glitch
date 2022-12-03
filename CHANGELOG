@@ -234,3 +234,6 @@
 [1.9.0-1]
 * Cleanup preview-cards cache and orphaned media
 
+[1.9.1]
+* Only chown if needed
+

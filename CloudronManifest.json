@@ -5,7 +5,7 @@
   "description": "file://DESCRIPTION.md",
   "changelog": "file://CHANGELOG",
   "tagline": "Federated social network",
-  "version": "1.9.0-1",
+  "version": "1.9.1",
   "upstreamVersion": "4.0.2",
   "healthCheckPath": "/about",
   "httpPort": 8000,
