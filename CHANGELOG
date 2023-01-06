@@ -237,3 +237,6 @@
 [1.9.1]
 * Only chown if needed
 
+[1.10.0]
+* Update base image to 4.0.0
+
