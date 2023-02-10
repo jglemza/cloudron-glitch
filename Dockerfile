@@ -36,7 +36,7 @@ ENV NODE_ENV production
 
 ARG VERSION=4.0.2
 
-RUN curl -L https://github.com/tootsuite/mastodon/archive/v${VERSION}.tar.gz | tar -xz --strip-components 1 -f - && \
+RUN git clone https://github.com/glitch-soc/mastodon.git /app/code && \
     bundle config --local set deployment 'true' && \
     bundle config --local set without 'development test' && \
     bundle config --local set silence_root_warning true && \
