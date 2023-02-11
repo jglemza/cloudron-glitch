@@ -55,7 +55,7 @@ describe('Application life cycle test', function () {
        if (mode === 'none') {
             await browser.get('https://' + app.fqdn);
             await browser.sleep(2000);
-            await browser.findElement(By.xpath('//button/span[contains(text(), "Create account")]')).click();
+            await browser.findElement(By.xpath('//div[@class="sign-in-banner"]/descendant::button/span[contains(text(), "Create account")]')).click();
             await visible(By.xpath('//span[contains(text()[2], "is currently not possible")]'));
         } else if (mode === 'open') {
             await browser.get('https://' + app.fqdn + '/auth/sign_up');

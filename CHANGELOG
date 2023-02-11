@@ -240,3 +240,12 @@
 [1.10.0]
 * Update base image to 4.0.0
 
+[1.11.0]
+* Update Mastodon to 4.1.0
+* [Full changelog](https://github.com/mastodon/mastodon/releases/tag/v4.1.0)
+* Add support for importing/exporting server-wide domain blocks (enbylenore, ClearlyClaire, dariusk, ClearlyClaire)
+* Add listing of followed hashtags (connorshea)
+* Add support for editing media description and focus point of already-sent posts (ClearlyClaire)
+* Add follow request banner on account header (ClearlyClaire)
+* Add confirmation screen when handling reports (ClearlyClaire, Gargron, tribela)
+* Add option to make the landing page be /about even when trends are enabled (ClearlyClaire)
